@@ -350,19 +350,49 @@ It is also difficult to exhaustively represent all possible feature variants whe
 
 A closer examination of the labeling process suggests that object classes should be defined according to common human visual perception. The trained network is intended to assist footwear examiners, consistency between human interpretation and network labels is important. For this reason, the classification labels should align with human cognition in this study.
 
-5.2.1 Human visual System
+A ventral pathway is a pathway that process information that leads to recognition and identification of objects. Visual information is processed hierarchically along the ventral visual pathway. When human sees an object, the eye-seeing signals first reach V1 area, where basic features such as edges, orientations, and contrast are detected. 
+These signals then travel through the nervous system, they are reorganized in a way so that they are received as an objects eventually. Gestalt psychologists provide principles that explain how visual system reorganize. According to Gestalt principle of relatability [@relatability] and closure [@gestalt], the broken circle (@fig-brokencircle) is perceived as a circle because the curvatures are compatible, consequently the missing contour can be interpolated and integrated into a continuous contour, and is perceived as a circle. Even larger gap can be filled that a non-existing object is perceived, the most famous example is the Kanizsa trianglep [@kanizsa] (@fig-Kanizsa). In @fig-Kanizsa, although a triangle whose edges are not physically present, human perceives the boarder of a invisible triangle from the incomplete shapes.
+<!-- Then the information is passed to V2 area, where simple features are combined into more complex patterns and contours.  -->
+<!-- The information continues progressing to higher level regions where representations becoming increasingly associated with complex shape and object.  -->
 
-Visual information is processed hierarchically along the ventral visual pathway to identify an object. When human sees an object, eye-seeing signals first reach V1, where basic features such as edges, orientations, and contrast are detected. Then the information is passed to V2, where simple features are combined into more complex patterns and contours. The information continues progressing to higher level regions where representations becoming increasingly associated with complex shape and object. 
+<!-- Although it looks like a one-directional process, the areas are communicating in both ways, which makes perception a product of Bottom-up process and Top down process. The Bottom-up process is driven by sensory information while the Top-down process is driven by prior knowledge.  -->
 
-The description is mainly a bottom-up process, where sensory information are integrated to make see an object. However, 
+<!-- In the Bottom-up process, l -->
+
+<!-- After local features of objects like spots and edges are collected,  -->
 
 
-5.2.2 Gestalt Principles
+
+
+![Kanizsa triangle](chapter0_img/Kanizsatriangle.png){#fig-Kanizsa}
+
+Neuroscientific studies suggests that there are the connected neurons in the primary cortex area (V1 area) compare their input, and they respond to illusory edges in a similar way of responding to a real line.
+
+<!-- light energy of objects are converted into electrochemical signals by photoreceptor cells, the signal strength depends on the light intensity. There are hundred millions of photoreceptors, so not all signals are treated equally when they travel through the neurvous system. The visual system selectively integrates signal from particular regions to form receptive fields, where uniform information tends to be suppressed, while local contrast is emphasized. The visual system collect information from the  -->
+
+
+In addition to the coherent perception, human also weighs global contour organization and local features in the judgement. Loffler et al. [@loffler2003local] and Wilkinson et al. [@wilkinson1998detection] studied smooth wave-like deformations of circles (radial frequency change @fig-RF1 @fig-RF2). They found observers can detect very small shape changes, but when the contour is disrupted or rearranged, performance drops strongly. Wilson [@wilson2015detection] studied controlled deformations that gradually transform circles into polygons (angular frequency change, @fig-AF1 @fig-AF2), they found jittering the contour has little effect, and performance on single angle is close to performance on whole shape. Hence, curved shapes rely more on global contour integration, whereas shapes with corners rely more on local angle information. Weights of global and local information are assigned differently for integration depending on shape type when perceiving a shape.
+
+::: {#fig-circle layout-ncol="4"}
+![circle jittering](chapter0_img/RF1.png){#fig-RF1}
+
+![RF5 jittering](chapter0_img/RF2.png){#fig-RF2}
+
+![circle segment](chapter0_img/AF1.png){#fig-AF1}
+
+![AF5 segment](chapter0_img/AF2.png){#fig-AF2}
+
+ Radial and angular deformations [@wilkinson1998detection] [@wilson2015detection]\
+*(a)-(b) jittering impairs discrimination suggesting RF (radial frequency) perception depends on global contour arrangements*\
+*(c)-(d) single angle has little effect on discrimination suggesting AF (angular frequency) relies more on local features*
+:::
+
 
 
 
 ## 5.3 How the Problem Will be Processed
 
+Human perceives an object in an intrinc way. Convolutional networks are historically inspired by model of human visual recognition. Attention based networks focuses on attributing attention to more relevant features cross image regions. Although this is not a direct model of human attention, the adaptive weighting of relevant information is conceptually related to selective attention in the human visual system.
 
 The overall performance of the detection network
 
