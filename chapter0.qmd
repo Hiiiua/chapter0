@@ -1,7 +1,7 @@
 ---
 title: "Chapter0"
 bibliography: chap0reference.bib
-# csl: nature.csl
+csl: nature.csl
 format: 
   pdf:
       linestretch: 2
@@ -364,7 +364,7 @@ These signals then travel through the nervous system, they are reorganized in a 
 
 
 
-![Kanizsa triangle](chapter0_img/Kanizsatriangle.png){#fig-Kanizsa}
+![Kanizsa triangle](chapter0_img/Kanizsatriangle.png){#fig-Kanizsa width="289"}
 
 Neuroscientific studies suggests that there are the connected neurons in the primary cortex area (V1 area) compare their input, and they respond to illusory edges in a similar way of responding to a real line.
 
@@ -383,7 +383,8 @@ In addition to the coherent perception, human also weighs global contour organiz
 ![AF5 segment](chapter0_img/AF2.png){#fig-AF2}
 
  Radial and angular deformations [@wilkinson1998detection] [@wilson2015detection]\
-*(a)-(b) jittering impairs discrimination suggesting RF (radial frequency) perception depends on global contour arrangements*\
+*(a)-(b) jittering impairs discrimination suggesting RF (radial frequency) perception depends n glnju9
+obal contour arrangements*\
 *(c)-(d) single angle has little effect on discrimination suggesting AF (angular frequency) relies more on local features*
 :::
 
@@ -392,16 +393,7 @@ In addition to the coherent perception, human also weighs global contour organiz
 
 ## 5.3 How the Problem Will be Processed
 
-Human perceives an object in an intrinc way. Convolutional networks are historically inspired by model of human visual recognition. Attention based networks focuses on attributing attention to more relevant features cross image regions. Although this is not a direct model of human attention, the adaptive weighting of relevant information is conceptually related to selective attention in the human visual system.
-
-The overall performance of the detection network
-
-
-The generalization capability of backbones
-
-
-The 
-
+Although visual networks have been developed for various purposes, their ability to recognize footwear features has not been thoroughly investigated. Footwear features present a particular challenge because many of them can be represented as basic geometric elements, while human perception of these elements is not always determined by strict geometric definitions. This makes the task different from common transfer-learning applications. CNNs incorporate several principles inspired by biological visual processing, while attention-based models focuses on attributing attention to more relevant features cross image regions. Although this is not a direct model of human attention, the adaptive weighting of relevant information is conceptually related to selective attention in the human visual system. Therefore, we will approach by examining whether visual networks can recognize geometric footwear features in a manner consistent with human perception. Specifically, we investigate their ability to extract basic geometric elements, the effects of backbone depth and architectural characteristics on feature representation, and whether networks trained on predefined shape categories can recognize and classify shapes formed through Gestalt perceptual organization.
 
 
 
