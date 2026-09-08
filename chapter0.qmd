@@ -14,7 +14,9 @@ editor: visual
 
 # 1 Motivation
 
-Footwear examination is important to forensic investigation. The features provided by footwear prints are known as class characteristics: they may be shared by many shoes of the same make and model, but are useful for narrowing down a subject pool and providing some association between a suspect and the scene [@bodziak2017footwear]. Collection and processing of footwear data require large amounts of human labor, hence, automating the the process of identification class characteristics is essential. With advances in neural network-based vision models, automated process has become feasible.
+Footwear examination is important to forensic investigation. The features provided by footwear prints are known as class characteristics (\@fig-classes): they may be shared by many shoes of the same make and model, but are useful for narrowing down a subject pool and providing some association between a suspect and the scene [@bodziak2017footwear]. Collection and processing of footwear data require large amounts of human labor, hence, automating the the process of identification class characteristics is essential. With advances in neural network-based vision models, automated process has become feasible.
+
+![Example of Footwear Class characteristics](chapter0_img/adidas-golf-adipure-sp-footwear-white-footwear-white-grey-two_product_9001026_color_690850.jpg){#fig-classes fig-align="center" width="200"}
 
 <!-- 2. Literature Review -->
 
@@ -60,21 +62,29 @@ Footwear examination is important to forensic investigation. The features provid
 
 Modern neural network-based vision models are mainly built on two categories of architectures: convolutional neural networks and attention-based networks. Although they use different mechanisms, these architectures are used as backbones to extract features from images. These features can be used by downstream task-specific modules, which are also referred to as heads. Task-specific heads are selected depending on the objective of the model. For example, in an image classification task, a classification head is attached to the backbone to predict image-level categories. In an object detection task, detection heads are used to predict both object classes and bounding box locations. A diagram of a neural network is shown in @fig-1-vision-model-diagram.
 
-![Vision model diagram](chapter0_img/nn-diagram.png){#fig-1-vision-model-diagram width="400"}
+![Vision model diagram](chapter0_img/nn-diagram.png){#fig-1-vision-model-diagram fig-align="center" width="400"}
 
 ## 2.1 Convolutional-based Vision Models
 
 Convolutional neural networks (CNNs) are one of the most widely used neural network architectures. The development of convolutional neural networks can be traced to biologically inspired models of vision.
 
-A hierarchy model [@Hubel1962] [@Hubel1965] proposed that the neural network in the visual cortex are structured in a hierarchical way: responses from low level cells are integrated by higher-level cells, so that more complex visual features of larger receptive field can be detected with great tolerance to positional shifts. Based on this idea, Fukushima proposed the Neocognitron [@fukushima1980neocognitron], an early neural network model for visual pattern recognition. @fig-neocognitron shows how the Neocognitron structure corresponding to the biological hierarchy visual model. In the Neocognitron, the ($U_s$) and ($U_c$) layers provide an artificial analogy to simple and complex cells. S-cell layers detect local visual feature, while C-cell layers combine nearby responses. A complex visual representation is built by repeating the S-cell followed by C-cell strucuter.
+A hierarchy model [@Hubel1962] [@Hubel1965] proposed that the neural network in the visual cortex are structured in a hierarchical way: responses from low level cells are integrated by higher-level cells, so that more complex visual features of larger receptive field can be detected with great tolerance to positional shifts. Based on this idea, Fukushima proposed the Neocognitron [@fukushima1980neocognitron], an early neural network model for visual pattern recognition. @fig-neocognitron shows how the Neocognitron structure corresponding to the biological hierarchy visual model. In the Neocognitron, the ($U_s$) and ($U_c$) layers provide an artificial analogy to simple and complex cells. S-cell layers detect local visual feature, while C-cell layers combine nearby responses. A complex visual representation is built by repeating the S-cell followed by C-cell structure.
 
-![Correspondence between the hierarchy model by Hubel and Wiesel, and the neural network of the neocognitron](chapter0_img/neocognition.png){#fig-neocognitron}
+::: {#fig-neocognitron layout="[[1],[1]]"}
+![circle jittering](chapter0_img/Neocognition-1.png){#fig-neocognitron1 fig-alt="ss"}
 
-While the Neocognitron is considered as a biologically inspired precursor, LeNet, proposed by LeCun, represented a early form of modern convolutional neural networks. <!-- By combining trainable convolutional layers, shared weights, subsampling operations, and supervised learning,  --> LeNet established a basic structure for later CNN architectures and enabled image features to be learned directly from image data. In this structure, convolutional filters (@fig-2-convolution-operation) are applied to local regions of the input image to detect spatial patterns.
+![RF5 jittering](chapter0_img/Neocognition-2.png){#fig-neocognitron2 fig-align="left" width="329"}
 
-![Convolution operation](chapter0_img/convolution-operation.jpeg){#fig-2-convolution-operation width="400"}
+ Neocognitron [@fukushima1980neocognitron]
 
-As a filter moves across the image, it computes responses to local visual patterns and produces a feature map that represents the strength of the filter response at different spatial locations. The filter plays a role similar to S-cells in the Neocognitron, in that they respond to local visual patterns and provide the basis for progressively more complex feature representations.
+Neocognitron design is inspired by the visual biological structure
+:::
+
+While the Neocognitron is considered as a biologically inspired precursor, it could not be trained as an integrated end-to-end system. LeNet [@lecun], proposed by LeCun, represented an early form of modern convolutional neural networks that could be trained end-to-end. <!-- By combining trainable convolutional layers, shared weights, subsampling operations, and supervised learning,  --> LeNet established a basic structure for later CNN architectures and enabled image features to be learned directly from image data. In this structure, convolutional filters (@fig-2-convolution-operation) are applied to local regions of the input image to detect spatial patterns.
+
+![Convolution operations EXPLANATIONS HERE???](chapter0_img/mycnn.png){#fig-2-convolution-operation layout="[1]"}
+
+As a filter moves across the image, it computes responses to local visual patterns and produces a feature map that represents the strength of the filter response at different spatial locations. As the filter slides across the image, its weight will remain unchanged, these reused parameters are referred to as shared weights. The filter plays a role similar to S-cells in the Neocognitron, in that they respond to local visual patterns and provide the basis for progressively more complex feature representations. Although primary features like edges and angles are meaningful to humans, high-level features extracted by CNNs are not easily interpretable because they encode complex combination of visual patterns.
 
 The use of local convolutional filters and shared weights gives CNNs strong image-specific inductive biases. Local convolutional filters implies the assumption that nearby pixels are more likely to be related than distant pixels. Shared weights allow the same filter to be reused across spatial locations, this design supports translation equivariance, in which a spatial shift in the input tends to produce a corresponding shift in the feature response. By stacking multiple convolutional layers, CNNs can gradually integrate local patterns into more complex and abstract visual representations. This local-to-global organization is conceptually related to hierarchical processing in the biological visual system.
 
@@ -83,8 +93,6 @@ The use of local convolutional filters and shared weights gives CNNs strong imag
 <!-- The properties are believed to have ability of -->
 
 <!-- This local processing is conceptually related to the biological visual system. In the visual cortex, neurons respond to stimuli within limited regions of the visual field in stead of the entire image. Similarly, convolutional filters operate on local image regions and produce responses that indicate where certain visual patterns are present. By stacking -->
-
-
 
 <!-- LeNet implemented a trainable network by using convolutional filters, shared weights, and subsampling layers. These components allow CNNs to process images locally at early layers and progressively build more abstract visual features in deeper layers. -->
 
@@ -104,13 +112,11 @@ Attention-based vision models are another major class of neural network-based mo
 
 The diagram is shown in @fig-vit。 The input image is first split into image patches. These patches are embedded as tokens and then processed by the self-attention module. Self-attention assigns different weights to different patches according to their relevance. The output attention maps show the spatial distribution of these attention weights across the image.
 
-![Vision Transformer](chapter0_img/vision-transformer-model-2.png){#fig-vit width="400"}
+![Vision Transformer](chapter0_img/myvit.png){#fig-vit width="521"}
 
 <!-- Later transformer-based vision models extended the original ViT by introducing more architectural designs such as hierarchical feature maps, local attention, ect.  -->
 
-
 While CNNs assumes that local regions are more likely to be related by employing local filters, the Vision Transformer does not impose receptive fields and models global context with a direct mechanism. Therefore, the Vision Transformer often requires large-scale training data to learn robust visual representations.
-
 
 <!-- 全局建模导致需要更多的数据来做预训练 However, this global modeling ability comes with weaker built-in locality assumptions compared with CNNs, which partly explains why Vision Transformers often benefit from large-scale pretraining. -->
 
@@ -130,24 +136,27 @@ While CNNs assumes that local regions are more likely to be related by employing
 
 Both CNN-based and attention-based architectures can be used to extract image features. However, these features must be used by a task-specific head to complete a particular task. For image classification, a classification head maps the features to category predictions. For object detection, detection heads use the feature representation to predict both object categories and locations.
 
-In a specific project, the task-specific head is usually selected or modified according to the objective of the study. For example, in an image classification task with seven categories, the final classification head need to be replaced by a seven-class classifier. The model is then trained by minimizing a task-specific loss function, such as a classification loss for category prediction. 
+In a specific project, the task-specific head is usually selected or modified according to the objective of the study. For example, in an image classification task with seven categories, the final classification head need to be replaced by a seven-class classifier. The model is then trained by minimizing a task-specific loss function, such as a classification loss for category prediction.
 
-In many applied vision projects, the computing resource or the number of project-specific training images are limited. Therefore, transfer learning is a commonly used strategy in the training to improve efficiency and performance. In transfer learning, a model is first pretrained on a large scale dataset, such as ImageNet [@imagenet-transferlearning] for image classification, and then adapted to the target dataset. Through pretraining, the backbone learns general visual features, such as edges, textures, and shapes, are considered transferable across different image datasets and vision tasks [@transfer-learning]. Then the task-specific head can be replaced or fine-tuned for the new task. The task-specific model is further trained using the target data. During the training, the pretrained backbones can be freezed or fine-tuned together with the new head, because it was found that features in deeper layers become increasingly specific to the original task  [@transfer-learning]. The transfer learning diagram is shown in @fig-transfer-learning.
+In many applied vision projects, the computing resource or the number of project-specific training images are limited. Therefore, transfer learning is a commonly used strategy in the training to improve efficiency and performance. In transfer learning, a model is first pretrained on a large scale dataset, such as ImageNet [@imagenet-transferlearning] for image classification, and then adapted to the target dataset. Through pretraining, the backbone learns general visual features, such as edges, textures, and shapes, are considered transferable across different image datasets and vision tasks [@transfer-learning]. Then the task-specific head can be replaced or fine-tuned for the new task. The task-specific model is further trained using the target data. During the training, the pretrained backbones can be freezed or fine-tuned together with the new head, because it was found that features in deeper layers become increasingly specific to the original task [@transfer-learning]. The transfer learning diagram is shown in @fig-transfer-learning.
 
-![Transfer learning](chapter0_img/transfer-learning.png){#fig-transfer-learning height="200"}
+::: {#fig-transfer-learning layout="[1,1]"}
+![Transfer learning](chapter0_img/transferlearning1.png){#fig-transferidea width="275"}
 
-Previous studies have demonstrated that transfer learning is effective, especially  across visual network architectures and tasks [@vit] [@R-CNN] [@vgg] [@resnet].
+![Training](chapter0_img/transferlearning5.png){#fig-transfer-training width="282"}
+:::
+
+Previous studies have demonstrated that transfer learning is effective, especially across visual network architectures and tasks [@vit] [@R-CNN] [@vgg] [@resnet].
 
 The goal of the present study is to locate and classify footwear class characteristics. These characteristics often consist of geometric patterns that contain both local features and broader spatial context. For example, recognizing a circular pattern requires the model to identify local curvature as well as the overall closed shape. Therefore, both CNN-based and attention-based models are considered suitable for this task. Given the limited amount of labeled training data, transfer learning is employed to improve model performance.
 
 # 3 Image Classification
 
-Image classification is a fundamental task in computer vision because it provides a basic framework for learning and evaluating visual feature representations. A classification dataset consists of images and their corresponding class labels, which are assigned to the entire image. In a classification model, a classification head uses these features that output from a backbone to predict the image category. 
-Many widely used backbones were originally developed and evaluated on image classification datasets. The representations learned through classification later became the foundation for models used in various vision tasks. This section reviews four representative architectures: AlexNet [@alexnet], VGG [@vgg], ResNet [@resnet], and the Vision Transformer [@vit]. These architectures illustrate important developments in convolutional and attention-based visual modeling.
+Image classification is a fundamental task in computer vision because it provides a basic framework for learning and evaluating visual feature representations. A classification dataset consists of images and their corresponding class labels, which are assigned to the entire image. In a classification model, a classification head uses these features that output from a backbone to predict the image category. Many widely used backbones were originally developed and evaluated on image classification datasets. The representations learned through classification later became the foundation for models used in various vision tasks. This section reviews four representative architectures: AlexNet [@alexnet], VGG [@vgg], ResNet [@resnet], and the Vision Transformer [@vit]. These architectures illustrate important developments in convolutional and attention-based visual modeling.
 
 ## 3.1 Data
 
-An image classification dataset consists of images and their labels. In the simplest case of single label task, each image is assigned to one category. The labeled images are divided into training, validation, and test sets. The training set is used to optimize the model parameters by minimizing a classification loss function, which measures the difference between the predicted class and observed labels. The validation set is used to identify potential overfitting, and the test set consists of held out images which are reserved for the final evaluation. During training, both the backbone and the classification head can be optimized: the backbone learns visual feature representations, and the classification head maps these representations to class predictions. 
+An image classification dataset consists of images and their labels. In the simplest case of single label task, each image is assigned to one category. The labeled images are divided into training, validation, and test sets. The training set is used to optimize the model parameters by minimizing a classification loss function, which measures the difference between the predicted class and observed labels. The validation set is used to identify potential overfitting, and the test set consists of held out images which are reserved for the final evaluation. During training, both the backbone and the classification head can be optimized: the backbone learns visual feature representations, and the classification head maps these representations to class predictions.
 
 ## 3.2 Architectures
 
@@ -155,15 +164,13 @@ An image classification dataset consists of images and their labels. In the simp
 
 <!-- Image classification is also important because it has served as a major source of pretrained visual backbones. Models trained on large-scale classification datasets can learn general visual representations, which can later be transferred to more specialized tasks. Therefore, reviewing image classification provides a useful basis for discussing backbone architectures, transfer learning, and their later use in object detection. -->
 
-AlexNet, introduced by Krizhevsky [@alexnet], was an influential convolutional neural network. It demonstrated that a large convolutional network could be successfully trained on a large-scale image dataset, and hierarchical visual features could be learned directly from image data. 
+AlexNet, introduced by Krizhevsky [@alexnet], was an influential convolutional neural network. It demonstrated that a large convolutional network could be successfully trained on a large-scale image dataset, and hierarchical visual features could be learned directly from image data.
 
 The success helps to establish deep CNNs as a central approach in computer vision. Its architecture incorporated several techniques that facilitated large-scale CNN training to allow effective robust feature representation learning and large scale image classification.
 
 <!-- which sets all negative values to zero while keeping positive values unchanged. This design introduces non-linearity, which enlarges the output space compare to solely linear combination. Hence, the model can learn more complex patterns. The threshold operation also improves computational efficiency. -->
 
-
 <!-- ![ReLU activation function](chapter0_img/relu.png){#fig-relu height="200"} -->
-
 
 <!-- Dropout is a regularization technique used to reduce overfitting. During training, it randomly “drops” (i.e., temporarily deactivates) a proportion of neurons in the network. This forces the model to learn more robust and distributed feature representations rather than relying too heavily on specific neurons. -->
 
@@ -171,54 +178,39 @@ Although transfer learning had been studied earlier than AlexNet, the success of
 
 Another practice popularized by AlexNet was data augmentation. Data augmentation artificially enlarges the training dataset using label-preserving transformations, which helps the network learn more general features and reduces overfitting. AlexNet applied several augmentation techniques (@fig-augmentation), including random cropping, horizontal reflection, and RGB intensity perturbation. These operations do not change the semantic content of the image but expose the model to different variations of the same object, improving its ability to generalize to unseen data.
 
-![Data augmentation](chapter0_img/augmentation.jpg){#fig-augmentation height="200"}
-
-
+![Data augmentation [@deng2009imagenet]](chapter0_img/augmentation_.png){#fig-augmentation height="200"}
 
 ### 3.2.2 VGG
 
 Building on the success of AlexNet, deeper networks was proposed to improve feature learning, representatives of the deep networks are the configurations proposed by Simonyan et al. [@vgg]. These configurations became widely know as VGG networks, named after the Visual Geometry Group at the University of Oxford. The two commonly known architectures are VGG-16 and VGG-19, which use a simple and uniform design based on repeated small convolutional filters (3 by 3) and contain 16 and 19 learnable layers, respectively. Compared with AlexNet, which contains eight learnable layers, VGG substantially increased network depth, see @fig-layer_diff. The study demonstrated that this deeper architecture improved image classification performance, suggesting an improved ability to learn discriminative visual representations.
 
-![AlexNet: 8 learnable layers, VGG-16: 16 learnable layers](chapter0_img/layer_diff.png){#fig-layer_diff height="200"}
+![AlexNet: 8 learnable layers, VGG-16: 16 learnable layers](chapter0_img/alexnet-vgg16.png){#fig-layer_diff height="200"}
 
+### 3.2.3 ResNet
 
-### 3.2.3  ResNet
+The deep layer design of CNNs brought an unexpected degradation despite better performance. It was found that adding more identical mapping layers could result in higher training error as well as test error [@layerdiff]. This observation suggests that the performance degradation is primarily associated with optimization difficulties rather than overfitting.
 
-The deep layer design of CNNs brought an unexpected degradation despite better performance. It was found that adding more identical mapping layers could result in higher training error as well as test error [@layerdiff]. This observation suggests that the performance degradation is primarily associated with optimization difficulties rather than overfitting. 
-
-ResNet architectures [@resnet] addressed the problem by introducing a deep residual learning module. This module adds a shortcut connection to add the input directly to the output of a few layers. The design makes optimization easier by learning the residual modification relative to the input rather than the full mapping. If the modification is small, as in an identity mapping, the optimization becomes much easier than in the normal design (@fig-residual). 
+ResNet architectures [@resnet] addressed the problem by introducing a deep residual learning module. This module adds a shortcut connection to add the input directly to the output of a few layers. The design makes optimization easier by learning the residual modification relative to the input rather than the full mapping. If the modification is small, as in an identity mapping, the optimization becomes much easier than in the normal design (@fig-residual).
 
 ResNet networks has five standard variants, ResNet-18, ResNet-34, ResNet-50, ResNet-101, and ResNet-152. Although ResNet-18 is the shallowest variant, it still has 18 learnable layers, which is deeper than the VGG-16 (@fig-difflayer3). ResNet achieved improved image classification performance while enabling much deeper networks to be trained effectively.
 
-
 ::: {#fig-classification-all layout="[1,1]"}
+![Residual block and normal block](chapter0_img/resnetmodule.png){#fig-residual height="200"}
 
-![Residual block and normal block](chapter0_img/resblock.png){#fig-residual height="200"}
-
-![Learnable depth: AlexNet (8 layers), VGG-16 (16 layers), and ResNet-18 (18 layers)](chapter0_img/layerdiff3.png){#fig-difflayer3 height="200"}
-
+![Learnable depth: AlexNet (8 layers), VGG-16 (16 layers), and ResNet-18 (18 layers)](chapter0_img/compare3.png){#fig-difflayer3 height="200"}
 :::
 
-
-### 3.2.4  ViT
+### 3.2.4 ViT
 
 While CNNs rely primarily on local convolutional operations to extract visual features, the Vision Transforner (ViT [@vit]) introduced a different approach that captures global dependencies across an image. Attention weights are learned to represent relationships among image patches. Unlike CNNs, which have inductive biases such as locality and translation equivariance built into the architectures, ViT uses global self-attention and imposes relatively little two-dimensional neighborhood structure. Therefore, ViT performance can be more sensitive to the amount of project-specific data。
 
 <!-- https://www.lightly.ai/blog/vision-transformers-vit -->
 
-
-
-
 These architectures were initially proposed as classification models, which includes feature extraction and class prediction. The major architectural difference lie in the feature extraction designs (backbone) rather than the classification heads. The classification heads serve a similar role to map extracted features to class predictions.
 
 Since backbone reflects the main architectual characteristics of models designed for the same task, architecture names are commonly used to describe the unique underlying feature extraction design when these models are adapted as backbones for other tasks. For example, the same detection framework can be implemented with different backbones, such as VGG or ResNet, and these variants are often referred to by their backbone architectures.
 
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Representative backbones options for visual feature learning, and it is therefore worthwhile to evaluate their performance in classifying footwear characteristics.
-!!!!!!!!!!!!!!!!!!!!!!!!
-
-
+!!!!!!!!!!!!!!!!!!!!!!!!!!!! Representative backbones options for visual feature learning, and it is therefore worthwhile to evaluate their performance in classifying footwear characteristics. !!!!!!!!!!!!!!!!!!!!!!!!
 
 # 4 CNN-based Object Detection
 
@@ -226,20 +218,15 @@ To achieve the goal of the present study, footwear characteristics must be both 
 
 ## 4.1 Object Detection Designs
 
-In the detection workflow, the input image is first processed by a visual backbone to extract feature representations. A detection head then uses these representations to locate and classify target patterns. 
-<!-- The detection head converts the learned features into task-specific outputs, commonly including bounding box coordinates and class scores. The bounding box represents the predicted spatial location of an object or region of interest (RoI) within the image, while the score indicates the likelihood that the detected object belongs to a particular category. -->
-Object detection models can be broadly categorized into two-stage and one-stage models.
-<!-- , and more recent transformer-based approaches.  --> Two-stage detectors first generate candidate regions that may contain objects and then classify and refine these regions, multiple networks are trained at the same time. Faster R-CNN is a representative two-stage detector (@fig-detections upper panel). In contrast, one-stage detectors predict object locations and class labels directly from image features without a separate region proposal stage (@fig-detections lower panel). YOLO models are representative examples of this approach. 
-
+In the detection workflow, the input image is first processed by a visual backbone to extract feature representations. A detection head then uses these representations to locate and classify target patterns. <!-- The detection head converts the learned features into task-specific outputs, commonly including bounding box coordinates and class scores. The bounding box represents the predicted spatial location of an object or region of interest (RoI) within the image, while the score indicates the likelihood that the detected object belongs to a particular category. --> Object detection models can be broadly categorized into two-stage and one-stage models. <!-- , and more recent transformer-based approaches.  --> Two-stage detectors first generate candidate regions that may contain objects and then classify and refine these regions, multiple networks are trained at the same time. Faster R-CNN is a representative two-stage detector (@fig-detections upper panel). In contrast, one-stage detectors predict object locations and class labels directly from image features without a separate region proposal stage (@fig-detections lower panel). YOLO models are representative examples of this approach.
 
 <!-- @fig-detections shows a diagram of the two detector types.  -->
+
 <!-- The one-stage detector is shown in the upper panel, it directly predicts object categories and locations from image features without a separate region proposal stage. However, the two-stage detector that is shown in the lower panel includes a Region Proposal Network (RPN) to generate candidate regions. These regions are then processed by the second-stage detection head, which performs classification and bounding-box regression in parallel to refine the proposed region.  -->
 
 One-stage detectors simplified the architecture by excluding the additional region proposal stage, this design reduces computational cost and enables faster inference, making them suitable for real-time applications. However, without a separate proposal and refinement process, one-stage detectors may have relatively lower localization accuracy compared with two-stage detectors. The present study does not require real-time detection and prioritizes accurate localization, Faster R-CNN was selected as the detector.
 
-
-![One stage YOLO and two stage FasterRCNN](chapter0_img/detection2.png){#fig-detections height="200"}
-
+![One stage YOLO and two stage FasterRCNN](chapter0_img/dection.png){#fig-detections height="200"}
 
 <!-- --------------- should I include this?  -------------------- -->
 
@@ -253,25 +240,19 @@ Faster R-CNN framework consisting of a backbone, a Region Proposal Network (RPN)
 
 Faster R-CNN implementations can be realized by changing the backbone while the overall framework remains unchanged. As mentioned previously, backbone designs fundamentally affect the feature representations provided to the detector, and consequently, detection performance. Different backbone designs can provide different levels of semantic abstraction and retained spatial information [@FPN]. The retained spatial resolution is particularly important for localization because it determines how much positional detail is preserved.
 
-
 <!-- In the first stage, a backbone network extracts feature maps from the input image, and a Region Proposal Network uses these feature maps to generate candidate regions that may contain objects or regions of interest. In the second stage, the proposed regions are passed to a detection head, which assigns class labels and refines the bounding box locations. The proposal-and-refinement structure improves performance of localization. Candidate regions proposed in stage one will be refined in the second stage, which allows the model to adjust initial predictions toward more accurate target locations. The unified framework improves efficiency of the pipeline, as the backbone and detection head can be trained jointly. -->
-
 
 ## 4.3 Data
 
-Object detection has a different data structure than the classification task. To obtain the ability of predicting spatial location, the training data must provide positional information in addition to the class label. Input images are paired with these human-provided annotations, which serve as the ground truth that guides model training and evaluation. For example, in @fig-2-detection-data, the image is annotated with both bounding boxes to indicate spatial locations as well as class labels for objects in the bounding boxes. An individual object detection image allows multiple target instances, each instance associates with a class label and a spatial annotation. The annotated regions can belong to the different classes, and it is common to find them overlap. 
+Object detection has a different data structure than the classification task. To obtain the ability of predicting spatial location, the training data must provide positional information in addition to the class label. Input images are paired with these human-provided annotations, which serve as the ground truth that guides model training and evaluation. For example, in @fig-2-detection-data, the image is annotated with both bounding boxes to indicate spatial locations as well as class labels for objects in the bounding boxes. An individual object detection image allows multiple target instances, each instance associates with a class label and a spatial annotation. The annotated regions can belong to the different classes, and it is common to find them overlap.
 
-![Object detection data](chapter0_img/detection-data.png){#fig-2-detection-data width="289"}
+![Object detection data [@deng2009imagenet]](chapter0_img/detection-data.png){#fig-2-detection-data width="289"}
 
-Low quality input would limit the network performance, hence, annotation quality is an important consideration in object detection. Previous studies have shown that small discrepancies in location annotation, such as different box sizes, and noisy can influence localization performance, especially for small objects [@annotatesize] because its susceptibility to errors. In addition, deviation from intended localization has been shown to reduce the detection performance of Faster R-CNN [@noisyannotation]. 
-
-
+Low quality input would limit the network performance, hence, annotation quality is an important consideration in object detection. Previous studies have shown that small discrepancies in location annotation, such as different box sizes, and noisy can influence localization performance, especially for small objects [@annotatesize] because its susceptibility to errors. In addition, deviation from intended localization has been shown to reduce the detection performance of Faster R-CNN [@noisyannotation].
 
 <!-- Despite these architectural differences, these models share the same general objective: to locate target regions and assign them to appropriate categories. Therefore, when detection performance is limited, the source of difficulty may come from localization, classification, or both. This connection is important for the present dissertation, which examines classification as a controlled setting for understanding conditions that may limit neural network-based footwear impression analysis. -->
 
 <!-- Although these models differ in architecture, they are commonly trained to minimize errors in both class prediction and object localization. -->
-
-
 
 <!-- ## 4.2 Difference Between Classification and Object Detection  -->
 
@@ -306,6 +287,7 @@ Low quality input would limit the network performance, hence, annotation quality
 <!-- # 5 How Human Making Judgement -->
 
 <!-- An automated networks is -->
+
 <!-- Human observes and perceives visual inputs by summing up localized features, but more than summation of localized features. -->
 
 <!-- ## 5.1 Human hierarchical visual processing -->
@@ -314,14 +296,11 @@ Low quality input would limit the network performance, hence, annotation quality
 
 <!-- ## 5.3  -->
 
-
-
 # 5 Relevance to the Present Study
 
 <!-- # 2 Object Detection -->
 
 The footwear feature automation can be framed as an object detection task that consists of two main stages: first locating footwear class characteristics or patterns, and classifying the detected regions. However, approaching the problem is more than adapting the network architecture.
-
 
 ## 5.1 Challenge
 
@@ -333,27 +312,21 @@ In addition to this ambiguity in grouping individual elements, uncertainty can a
 
 It is also difficult to exhaustively represent all possible feature variants when the labeling system is restricted to a limited set of basic categories such as circles, bars, and polygons. For example, @fig-knobbly represents a variant of a circle. Numerous visually different features may still be coded within the same “circle” category, making it impractical to collect examples of every possible variant for model training.
 
-::: {#fig-isolatedsameshape layout-ncol=4 layout="[1,1,1,1]"}
-
+::: {#fig-isolatedsameshape layout-ncol="4" layout="[1,1,1,1]"}
 ![A broken circle or four arcs](chapter0_img/brokencircle.png){#fig-brokencircle}
 
 ![Ellipse](chapter0_img/oval.png){#fig-oval}
 
-
 ![A rounded bar](chapter0_img/roundedbar.png){#fig-roundedbar}
-
 
 ![A circle with a knobbly perimeter](chapter0_img/knobbly.png){#fig-knobbly}
 :::
 
-## 5.2 How Human Makes Judgements
+## 5.2 How Human Makes Judgement
 
 A closer examination of the labeling process suggests that object classes should be defined according to common human visual perception. The trained network is intended to assist footwear examiners, consistency between human interpretation and network labels is important. For this reason, the classification labels should align with human cognition in this study.
 
-A ventral pathway is a pathway that process information that leads to recognition and identification of objects. Visual information is processed hierarchically along the ventral visual pathway. When human sees an object, the eye-seeing signals first reach V1 area, where basic features such as edges, orientations, and contrast are detected. 
-These signals then travel through the nervous system, they are reorganized in a way so that they are received as an objects eventually. Gestalt psychologists provide principles that explain how visual system reorganize. According to Gestalt principle of relatability [@relatability] and closure [@gestalt], the broken circle (@fig-brokencircle) is perceived as a circle because the curvatures are compatible, consequently the missing contour can be interpolated and integrated into a continuous contour, and is perceived as a circle. Even larger gap can be filled that a non-existing object is perceived, the most famous example is the Kanizsa trianglep [@kanizsa] (@fig-Kanizsa). In @fig-Kanizsa, although a triangle whose edges are not physically present, human perceives the boarder of a invisible triangle from the incomplete shapes.
-<!-- Then the information is passed to V2 area, where simple features are combined into more complex patterns and contours.  -->
-<!-- The information continues progressing to higher level regions where representations becoming increasingly associated with complex shape and object.  -->
+A ventral pathway is a pathway that process information that leads to recognition and identification of objects. Visual information is processed hierarchically along the ventral visual pathway. When human sees an object, the eye-seeing signals first reach V1 area, where basic features such as edges, orientations, and contrast are detected. These signals then travel through the nervous system, they are reorganized in a way so that they are received as an objects eventually. Gestalt psychologists provide principles that explain how visual system reorganize. According to Gestalt principle of relatability [@relatability] and closure [@gestalt], the broken circle (@fig-brokencircle) is perceived as a circle because the curvatures are compatible, consequently the missing contour can be interpolated and integrated into a continuous contour, and is perceived as a circle. Even larger gap can be filled that a non-existing object is perceived, the most famous example is the Kanizsa triangle [@kanizsa] (@fig-Kanizsa). In @fig-Kanizsa, although a triangle whose edges are not physically present, human perceives the boarder of a invisible triangle from the incomplete shapes. <!-- Then the information is passed to V2 area, where simple features are combined into more complex patterns and contours.  --> <!-- The information continues progressing to higher level regions where representations becoming increasingly associated with complex shape and object.  -->
 
 <!-- Although it looks like a one-directional process, the areas are communicating in both ways, which makes perception a product of Bottom-up process and Top down process. The Bottom-up process is driven by sensory information while the Top-down process is driven by prior knowledge.  -->
 
@@ -361,19 +334,15 @@ These signals then travel through the nervous system, they are reorganized in a 
 
 <!-- After local features of objects like spots and edges are collected,  -->
 
-
-
-
-![Kanizsa triangle](chapter0_img/Kanizsatriangle.png){#fig-Kanizsa width="289"}
+![Kanizsa triangle](chapter0_img/Kanizsatriangle.png){#fig-Kanizsa width="169"}
 
 Neuroscientific studies suggests that there are the connected neurons in the primary cortex area (V1 area) compare their input, and they respond to illusory edges in a similar way of responding to a real line.
 
 <!-- light energy of objects are converted into electrochemical signals by photoreceptor cells, the signal strength depends on the light intensity. There are hundred millions of photoreceptors, so not all signals are treated equally when they travel through the neurvous system. The visual system selectively integrates signal from particular regions to form receptive fields, where uniform information tends to be suppressed, while local contrast is emphasized. The visual system collect information from the  -->
 
-
 In addition to the coherent perception, human also weighs global contour organization and local features in the judgement. Loffler et al. [@loffler2003local] and Wilkinson et al. [@wilkinson1998detection] studied smooth wave-like deformations of circles (radial frequency change @fig-RF1 @fig-RF2). They found observers can detect very small shape changes, but when the contour is disrupted or rearranged, performance drops strongly. Wilson [@wilson2015detection] studied controlled deformations that gradually transform circles into polygons (angular frequency change, @fig-AF1 @fig-AF2), they found jittering the contour has little effect, and performance on single angle is close to performance on whole shape. Hence, curved shapes rely more on global contour integration, whereas shapes with corners rely more on local angle information. Weights of global and local information are assigned differently for integration depending on shape type when perceiving a shape.
 
-::: {#fig-circle layout-ncol="4"}
+::: {#fig-geometric layout-ncol="4"}
 ![circle jittering](chapter0_img/RF1.png){#fig-RF1}
 
 ![RF5 jittering](chapter0_img/RF2.png){#fig-RF2}
@@ -383,65 +352,47 @@ In addition to the coherent perception, human also weighs global contour organiz
 ![AF5 segment](chapter0_img/AF2.png){#fig-AF2}
 
  Radial and angular deformations [@wilkinson1998detection] [@wilson2015detection]\
-*(a)-(b) jittering impairs discrimination suggesting RF (radial frequency) perception depends n glnju9
-obal contour arrangements*\
+*(a)-(b) jittering impairs discrimination suggesting RF (radial frequency) perception depends n glnju9 obal contour arrangements*\
 *(c)-(d) single angle has little effect on discrimination suggesting AF (angular frequency) relies more on local features*
 :::
-
-
-
 
 ## 5.3 How the Problem Will be Processed
 
 Although visual networks have been developed for various purposes, their ability to recognize footwear features has not been thoroughly investigated. Footwear features present a particular challenge because many of them can be represented as basic geometric elements, while human perception of these elements is not always determined by strict geometric definitions. This makes the task different from common transfer-learning applications. CNNs incorporate several principles inspired by biological visual processing, while attention-based models focuses on attributing attention to more relevant features cross image regions. Although this is not a direct model of human attention, the adaptive weighting of relevant information is conceptually related to selective attention in the human visual system. Therefore, we will approach by examining whether visual networks can recognize geometric footwear features in a manner consistent with human perception. Specifically, we investigate their ability to extract basic geometric elements, the effects of backbone depth and architectural characteristics on feature representation, and whether networks trained on predefined shape categories can recognize and classify shapes formed through Gestalt perceptual organization.
 
-
-
-
 <!-- Annotating features by the smallest isolated shapes would not work. @fig- is an example, it is intuitive for human to recognize the circle, the shape is essentially a broken circle, or four arcs. Annotating by arcs instead of a circle would fail the network from learning the Gestalt principle, if it can . -->
-
 
 <!-- SoleMate, a forensic tool, uses isolated features for coding shapes, @fig- is categorized as round. Although  -->
 
-
-
-
-
-
 <!-- For example, Gestalt principles suggest that local element are organized through global configuration. Fig-brokencircle is an Broken circle, which can also be described as arcs. -->
-<!-- Another example is that human observers categorize by perceptually similarity. Regular polygons with increasing numbers of sides progressively approximate circular contours, so a 18-sided regular polygons is perceived as a circle (@Fig-).  -->
 
+<!-- Another example is that human observers categorize by perceptually similarity. Regular polygons with increasing numbers of sides progressively approximate circular contours, so a 18-sided regular polygons is perceived as a circle (@Fig-).  -->
 
 <!-- Forensic tools like SoleMate would build a database that isolates basic features like circle, polygons etc.  -->
 
-
 <!-- Making judgment similar to human requires the network weighting global and local information.  -->
 
-
 <!-- rather than relying only on strict mathematical definitions, otherwise, the network results can be misleading in practical examination. -->
- 
+
 <!-- The challenge is more difficult when considering how human organizing multiple visual inputs. Human processes visual stimuli more than summation of localized features. Gestalt principles suggest that local element are organized through global configuration.  -->
 
-
-
-
-
 <!-- Human observers perceive visual inputs more than summation of localized features. Gestalt principles suggest that local element are organized through global configuration. The orga- nization impacts shape judgments, for instance, Figure 1a is an example of an illusory white square emerging with four pacmen. Human tends to complete the disc sectors as complete discs to organize the illusory figure. However, the illusory is less strong in Figure 1a where pacmen are replaced by crosses, despite similar local edges remain. Another example is shown in Figure 1b, where rounded squares are identified as isolated objects in (right), but consid- ered as two overlaying bars when they connect at corners. The small alternation of contours induces perceptual re-organization, so that different shapes are perceived in images. -->
+
 <!-- Explanations for these findings are not limited to psychological-level, they can be explained at neural-level. Neuron experiments suggests that early cortex area, V1, encodes local physical features, while higher area, V2, organizes the features into contours, surfaces, and figure-ground relationships2 34. In addition, attention can further select one organized interpretation than another5 6. Figure 1a shows that the illusory interpretation only emerges in the left figure because it is supported by global organization. Figure 1b further illustrates that local the -->
+
 <!-- 1 -->
+
 <!--   (b) isolate squares Figure 1 Small local changes result in extensive perceptual judgement1 -->
+
 <!-- assignment of local edges to objects can depend on global organization and can be modulated by attention. -->
+
 <!-- Weighting of global and local information is also observed in judgement of simple geometric shapes. Studies on geometric shape perturbation have shown that human perception of geo- metric shapes depend on both global contour organization and local features. Loffler et al.7 and Wilkinson et al.8 studied smooth wave-like deformations of circles (radial frequency change Figure 2a Figure 2b). They found observers can detect very small shape changes, but when the contour is disrupted or rearranged, performance drops strongly. Wilson9 studied controlled deformations that gradually transform circles into polygons (angular frequency change, Fig- ure 2c Figure 2d), they found jittering the contour has little effect, and performance on single angle is close to performance on whole shape. Hence, curved shapes rely more on global con- tour integration, whereas shapes with corners rely more on local angle information. Weights of global and local information are assigned differently for integration depending on shape type when perceiving a shape. -->
+
 <!-- Neural models are also posited to explain these findings. Detecting radial frequency deforma- tion is believed to relate to hierarchical process. Specifically, V1 detects local orientations, V2 represents curvature, and V4, which is an even higher visual area, pools these signals into a global curved-shape representation. Detecting radial frequency deformation relies more on local cues, which is believed to relate to angle-sensitive neurons in V2. -->
 
-
-
-
-
-
 <!-- We need data label -->
-<!-- In some forensic tools footwear patterns are coded as isolated basic features, such as round, bars, zigzags ect. Although it seems the basic features are sufficient for shape description, they  -->
 
+<!-- In some forensic tools footwear patterns are coded as isolated basic features, such as round, bars, zigzags ect. Although it seems the basic features are sufficient for shape description, they  -->
 
 <!-- ::: {#fig-isolatedsameshape layout="[[1],[1]]"} -->
 
@@ -453,25 +404,17 @@ Although visual networks have been developed for various purposes, their ability
 
 <!-- Another potential issue with isolated basic feature is the ambiguity between two features, as much as they are thought to be different. For instance, @fig- shows two similar shapes that are categorized in to round and bar. The shape ambiguity is more lies into human capability of discriminating the shapes. Human perceives visual inputs more than summation of localized features. -->
 
-
-
-
 <!-- #### 5.1.1.1 Objective Footwear Feature Classification -->
 
 <!-- The difficulty lies in the ambiguity of footwear shapes. -->
 
-
 <!-- #### 5.1.1.2 Huamn cognition -->
-
-
 
 <!-- #### 5.1.1.3 Spatial annotation -->
 
 <!-- ### 5.1.2 Network Challenge -->
 
 <!-- Networks do not extract features identically, depth and design matter, backbones... -->
-
-
 
 <!-- ## 5.2 How the problems will be proceed -->
 
@@ -482,7 +425,6 @@ Although visual networks have been developed for various purposes, their ability
 <!-- ### 5.2.3 Detection -->
 
 <!-- This is actually the earliest experiment, not sure if I should put it here or bring it to 5.2.1 -->
-
 
 <!-- ![CNN and ViT](chapter0_img/cnn_vit.png){#fig-cnn_vit height="200"} -->
 
